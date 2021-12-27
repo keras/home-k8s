@@ -1,0 +1,32 @@
+env:
+  PHOTOPRISM_ORIGINALS_PATH: /originals
+  PHOTOPRISM_PUBLIC: false
+  PHOTOPRISM_SITE_URL: https://photos.tamika.fi
+  PHOTOPRISM_DATABASE_DRIVER: sqlite
+  PHOTOPRISM_DATABASE_DSN: /config/database.db
+  PHOTOPRISM_STORAGE_PATH: /config/storage
+  HOME: /photoprism
+
+persistence:
+  config:
+    enabled: true
+    size: 100Gi
+    mountPath: /config
+
+  originals:
+    enabled: true
+    type: hostPath
+    hostPath: /media/data/photos
+    hostPathType: Directory
+    mountPath: /originals
+
+ingress:
+  main:
+    enabled: true
+    annotations:
+      traefik.ingress.kubernetes.io/router.middlewares: default-traefik-forward-auth@kubernetescrd
+    hosts:
+      - host: photos.tamika.fi
+        paths:
+          - path: /
+            pathType: Prefix

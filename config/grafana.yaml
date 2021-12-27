@@ -1,0 +1,13 @@
+persistence:
+  enabled: true
+
+ingress:
+  enabled: true
+  hosts:
+    - grafana.tamika.fi
+
+grafana.ini:
+  server:
+    domain: grafana.tamika.fi
+    root_url: https://grafana.tamika.fi
+

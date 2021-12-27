@@ -1,0 +1,15 @@
+persistence:
+  config:
+    enabled: true
+    size: 100Mi
+
+ingress:
+  main:
+    enabled: true
+    annotations:
+      traefik.ingress.kubernetes.io/router.middlewares: default-traefik-forward-auth@kubernetescrd
+    hosts:
+      - host: home-assistant.tamika.fi
+        paths:
+          - path: /
+            pathType: Prefix

@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "common.names.fullname" . }}-config
+  labels:
+    {{- include "common.labels" . | nindent 4 }}
+data:
+  site.conf: |
+    server {
+      listen {{ .Values.service.main.ports.http.port }} default_server;
+      root {{ .Values.persistence.default.mountPath }};
+
+      {{- range $persistenceIndex, $persistenceItem := .Values.persistence }}
+        {{- if ne $persistenceIndex "default" }}
+      location /{{ $persistenceIndex }} {
+        autoindex {{ default "off" $persistenceItem.autoindex }};
+        charset {{ default "utf-8" $persistenceItem.charset }};
+        alias {{ $persistenceItem.mountPath }};
+      }
+        {{- end -}}
+      {{- end }}
+    }

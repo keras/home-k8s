@@ -1,0 +1,16 @@
+persistence:
+  default:
+    enabled: true
+    type: hostPath
+    hostPath: /srv/www
+    hostPathType: Directory
+    mountPath: /srv/www
+
+ingress:
+  main:
+    enabled: true
+    hosts:
+      - host: tamika.fi
+        paths:
+          - path: /
+            pathType: Prefix

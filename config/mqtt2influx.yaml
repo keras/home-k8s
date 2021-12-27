@@ -1,0 +1,18 @@
+service:
+  enabled: false
+
+config:
+  agent:
+    interval: 20s
+    flush_interval: 20s
+    precision: 1s
+    omit_hostname: true
+  inputs:
+    - mqtt_consumer:
+        servers: ["tcp://mosquitto:1883"]
+        topics: ["zigbee2mqtt/+"]
+        data_format: "json"
+  outputs:
+    - influxdb:
+        urls: ["http://10.10.0.1:8086"]
+        database: "zigbee"

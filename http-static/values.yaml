@@ -1,0 +1,9 @@
+image:
+  repository: nginx
+  tag: 1.21-alpine
+
+service:
+  main:
+    ports:
+      http:
+        port: 80

@@ -1,0 +1,30 @@
+config:
+  mqtt:
+    server: "mqtt://mosquitto"
+  serial:
+    port: /dev/ttyACM0
+    adapter: deconz
+  homeassistant: true
+
+persistence:
+  data:
+    enabled: true
+    accessMode: ReadWriteOnce
+    size: 10M
+  usb:
+    enabled: true
+    hostPath: /dev/ttyACM0
+
+securityContext:
+  privileged: true
+
+ingress:
+  main:
+    enabled: true
+    annotations:
+      traefik.ingress.kubernetes.io/router.middlewares: default-traefik-forward-auth@kubernetescrd
+    hosts:
+      - host: zigbee2mqtt.tamika.fi
+        paths:
+          - path: /
+            pathType: Prefix

@@ -1,0 +1,13 @@
+{{- include "common.values.setup" . }}
+
+{{- define "http-static.configVolume" -}}
+enabled: "true"
+mountPath: "/etc/nginx/conf.d/"
+type: "custom"
+volumeSpec:
+  configMap:
+    name: {{ include "common.names.fullname" . }}-config
+{{- end -}}
+{{- $_ := set .Values.persistence "config" (include "http-static.configVolume" . | fromYaml) -}}
+
+{{ include "common.all" . }}

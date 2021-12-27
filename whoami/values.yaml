@@ -1,0 +1,9 @@
+image:
+  repository: traefik/whoami
+  tag: v1.7.1
+
+service:
+  main:
+    ports:
+      http:
+        port: 80

@@ -1,0 +1,19 @@
+providers:
+  oidc:
+    clientId: 646040632942-dv02ov5nm2pgp5cj4ie6a7acthi58khi.apps.googleusercontent.com
+    enabled: true
+    issuerUrl: https://accounts.google.com
+authHost: auth.tamika.fi
+cookie:
+  domain: tamika.fi
+middleware:
+  enabled: true
+  name: traefik-forward-auth
+default:
+  provider: oidc
+ingress:
+  enabled: true
+  hosts:
+    - host: auth.tamika.fi
+      paths:
+        - /

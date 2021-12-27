@@ -1,0 +1,38 @@
+# /var/lib/rancher/k3s/server/manifests/k3s.traefik.yaml
+
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: traefik
+  namespace: kube-system
+spec:
+  repo: https://helm.traefik.io/traefik
+  chart: traefik
+  version: 10.6.2
+  valuesContent: |-
+    tolerations:
+      - key: "CriticalAddonsOnly"
+        operator: "Exists"
+      - key: "node-role.kubernetes.io/master"
+        operator: "Exists"
+        effect: "NoSchedule"
+    persistence:
+      enabled: true
+    service:
+      type: NodePort
+    ports:
+      web:
+        nodePort: 32080
+        redirectTo: websecure
+      websecure:
+        nodePort: 32443
+        tls:
+          enabled: true
+          certResolver: potti
+    additionalArguments:
+      - --api.insecure=true
+      - --entryPoints.web.proxyProtocol.trustedIPs=10.42.0.1/32
+      - --entryPoints.websecure.proxyProtocol.trustedIPs=10.42.0.1/32
+      - --certificatesresolvers.potti.acme.email=me@example.com
+      - --certificatesresolvers.potti.acme.storage=/data/acme.json
+      - --certificatesresolvers.potti.acme.httpchallenge.entrypoint=web

@@ -1,0 +1,13 @@
+apiVersion: v2
+appVersion: v1.21
+description: nginx to serve static files
+name: http-static
+version: 1.0.0
+kubeVersion: ">=1.20.0-0"
+keywords:
+- nginx
+- http
+dependencies:
+- name: common
+  repository: https://library-charts.k8s-at-home.com
+  version: 4.2.0
