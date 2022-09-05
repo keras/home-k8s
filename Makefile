@@ -51,6 +51,9 @@ install-unifi-controller:
 	# Hack to patch services to not allocate NodePorts, but still use k8s-at-home implementation
 	kubectl apply -f <(helm template unifi k8s-at-home/unifi -f config/unifi.yaml | yq e '(select(.spec.type == "LoadBalancer") | .spec.allocateLoadBalancerNodePorts) = false' -)
 
-install-infra: install-metallb install-traefik-forward-auth
+install-devolo-restart:
+	helm upgrade --install devolo-restart devolo-restart
+
+install-infra: install-metallb install-traefik-forward-auth install-devolo-restart
 install-iot: install-zigbee2mqtt install-mosquitto install-home-assistant install-mqtt2influx install-grafana
 install-all: install-infra install-iot install-whoami install-photoprism install-http-static

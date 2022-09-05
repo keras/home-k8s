@@ -1,0 +1,28 @@
+{{- include "common.values.setup" . }}
+
+---
+# ------------------- CronJob ------------------- #
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "common.names.fullname" . }}
+  labels:
+    {{- include "common.labels" . | nindent 4 }}
+spec:
+  schedule: {{ .Values.job.schedule | quote }}
+  concurrencyPolicy: Replace
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: {{ .Values.job.ttl }}
+      template:
+        metadata:
+          name: {{ include "common.names.fullname" . }}-backup
+          labels:
+            {{- include "common.labels.selectorLabels" . | nindent 12 }}
+        spec:
+          hostNetwork: true
+          restartPolicy: Never
+          containers:
+            - name: devolo-restart
+              image: "{{ .Values.image.repository}}:{{ .Values.image.tag}}"
+              imagePullPolicy: {{ .Values.image.imagePullPolicy}}

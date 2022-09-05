@@ -1,0 +1,15 @@
+apiVersion: v2
+appVersion: v1.7.1
+description: Devolo plc scheduler
+name: devolo-restart
+version: 1.0.0
+kubeVersion: ">=1.20.0-0"
+keywords:
+- devolo
+- cron
+sources:
+- https://github.com/keras/devolo-restart
+dependencies:
+- name: common
+  repository: https://library-charts.k8s-at-home.com
+  version: 4.2.0

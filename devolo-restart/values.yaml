@@ -1,0 +1,7 @@
+image:
+  repository: europe-docker.pkg.dev/mikael-default/home-k8s/devolo-restart
+  tag: latest
+
+job:
+  schedule: "0 4 * * *"
+  ttl: 86400
